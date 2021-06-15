@@ -38,29 +38,49 @@ public class MainActivity extends AppCompatActivity {
 
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                Toast.makeText(MainActivity.this,"Ready To Play" , Toast.LENGTH_SHORT).show();
-                mediaPlayer.start();
+            public void onPrepared(MediaPlayer mp) {
+                Toast.makeText(MainActivity.this, "Ready To Play", Toast.LENGTH_SHORT).show();
+                mp.start();
+                seekBar.setMax(mediaPlayer.getDuration());
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                        if (fromUser){
+                            mediaPlayer.seekTo(i);
+                        }
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
             }
         });
 
-        mediaPlayer.prepareAsync();
+                mediaPlayer.prepareAsync();
 
-        //mediaPlayer.start();
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mediaPlayer.start();
+                //mediaPlayer.start();
+                play.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mediaPlayer.start();
+
+                    }
+                });
+                pause.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mediaPlayer.pause();
+                    }
+                });
+
 
             }
-        });
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mediaPlayer.pause();
-            }
-        });
-
-
-    }
-}
+        }
